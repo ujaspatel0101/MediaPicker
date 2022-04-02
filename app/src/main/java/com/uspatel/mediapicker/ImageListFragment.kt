@@ -8,7 +8,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class ImageListFragment(private val id: Long, private val mainActivity: MainActivity) : Fragment(R.layout.fragment_image_list) {
+class ImageListFragment(
+    private val id: Long,
+   private val maxCount: Int,
+    private val imagePickerActivity: ImagePickerActivity
+) : Fragment(R.layout.fragment_image_list) {
     private lateinit var rvImages : RecyclerView
     private var adapter: ImageAdapter? = null
 
@@ -16,14 +20,14 @@ class ImageListFragment(private val id: Long, private val mainActivity: MainActi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity.currentFragment("images")
+        imagePickerActivity.currentFragment("images")
         rvImages = view.findViewById(R.id.rvAlbums)
 
         val onItemClickListener : (Int, List<String>) -> Unit = { it, list ->
-            mainActivity.updateCount(it, list)
+            imagePickerActivity.updateCount(it, list)
         }
 
-        adapter = ImageAdapter(requireContext(), onItemClickListener)
+        adapter = ImageAdapter(requireContext(), onItemClickListener,maxCount)
         rvImages.adapter = adapter
         rvImages.layoutManager = GridLayoutManager(requireContext(),3)
 

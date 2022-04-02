@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class AlbumListFragment(private val mainActivity: MainActivity) : Fragment(R.layout.fragment_album_list) {
+class AlbumListFragment(private val imagePickerActivity: ImagePickerActivity,private val maxCount: Int) : Fragment(R.layout.fragment_album_list) {
 
     private lateinit var rvAlbums :RecyclerView
     private var adapter: AlbumAdapter? = null
@@ -17,7 +17,7 @@ class AlbumListFragment(private val mainActivity: MainActivity) : Fragment(R.lay
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainActivity.currentFragment("album")
+        imagePickerActivity.currentFragment("album")
 
         rvAlbums = view.findViewById(R.id.rvAlbums)
 
@@ -34,7 +34,7 @@ class AlbumListFragment(private val mainActivity: MainActivity) : Fragment(R.lay
     private fun loadImageListFragment(id: Long) {
        val manager = requireActivity().supportFragmentManager
         val transaction = manager.beginTransaction()
-        transaction.replace(R.id.frmLayout, ImageListFragment(id, mainActivity))
+        transaction.replace(R.id.frmLayout, ImageListFragment(id,maxCount, imagePickerActivity))
         transaction.commit()
     }
 
